@@ -51,14 +51,73 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="إظهار الزر فقط عند ظهور لوحة المفاتيح" />
+            android:text="إظهار الزر فقط عند ظهور لوحة المفاتيح (وضع «بجانب الحقل»)" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchLeft"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="وضع الزر على يسار الحقل (الافتراضي: يمين)" />
+            android:text="الزر على اليسار بدل اليمين (بجانب الحقل / فوق لوحة المفاتيح)" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="طريقة الاستدعاء"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/modeGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/modeNear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="زر بجانب الحقل (الافتراضي)" />
+
+            <RadioButton
+                android:id="@+id/modeKeyboard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="زر ثابت فوق لوحة المفاتيح" />
+
+            <RadioButton
+                android:id="@+id/modeFree"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="كرة عائمة قابلة للسحب (ظاهرة دائماً)" />
+
+            <RadioButton
+                android:id="@+id/modeHidden"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="بدون زر: أستدعيه يدوياً" />
+
+            <RadioButton
+                android:id="@+id/modeTap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="بدون زر: يفتح فوراً عند الضغط على الحقل" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:lineSpacingExtra="2dp"
+            android:text="الاستدعاء اليدوي: من زر «المحرر الكبير» في مربع الإشعارات السريعة (أضفه من تعديل الأزرار)، أو من أيقونة «فتح المحرر» في قائمة التطبيقات، أو من زر إمكانية الوصول. يفتح المحرر للحقل المحدد، أو للحقل الوحيد الظاهر، وإن وُجد أكثر من حقل ولم تحدد أحدها فاضغط على الحقل المطلوب ليفتح فوراً."
+            android:textSize="13sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAppearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="تخصيص مظهر الكرة" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnExcluded"

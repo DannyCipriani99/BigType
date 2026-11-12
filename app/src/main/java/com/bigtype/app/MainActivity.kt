@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -30,6 +31,17 @@ class MainActivity : AppCompatActivity() {
         bindSwitch(R.id.switchSkipNumbers, Prefs.skipNumbers(this)) { Prefs.setSkipNumbers(this, it) }
         bindSwitch(R.id.switchImeOnly, Prefs.imeOnly(this)) { Prefs.setImeOnly(this, it) }
         bindSwitch(R.id.switchLeft, Prefs.bubbleLeft(this)) { Prefs.setBubbleLeft(this, it) }
+
+        val modeIds = intArrayOf(R.id.modeNear, R.id.modeKeyboard, R.id.modeFree, R.id.modeHidden, R.id.modeTap)
+        val group = findViewById<RadioGroup>(R.id.modeGroup)
+        group.check(modeIds[Prefs.triggerMode(this).coerceIn(0, modeIds.size - 1)])
+        group.setOnCheckedChangeListener { _, id ->
+            val idx = modeIds.indexOf(id)
+            if (idx >= 0) Prefs.setTriggerMode(this, idx)
+        }
+        findViewById<MaterialButton>(R.id.btnAppearance).setOnClickListener {
+            startActivity(Intent(this, AppearanceActivity::class.java))
+        }
 
         findViewById<MaterialButton>(R.id.btnExcluded).setOnClickListener { showExcluded() }
         findViewById<MaterialButton>(R.id.btnClearDrafts).setOnClickListener {
