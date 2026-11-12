@@ -524,8 +524,11 @@ class BigTextAccessibilityService : AccessibilityService() {
                     n.performAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_IME_ENTER.id)
                 }, 150)
             }
-            suppressUntil = now() + 1500
-            scheduleRefresh(600)
+            suppressUntil = now() + 2500
+            if (!enter && Prefs.keyboardAfter(this)) {
+                handler.postDelayed({ showKeyboardFor(n) }, 300)
+            }
+            scheduleRefresh(900)
             return
         }
 
@@ -534,6 +537,23 @@ class BigTextAccessibilityService : AccessibilityService() {
         } else {
             fallbackPaste(text)
         }
+    }
+
+    /**
+     * يعيد التركيز للحقل ثم ينقر عليه: الحقول الأصلية (TextView) تفتح لوحة المفاتيح
+     * عند استقبال ACTION_CLICK وهي مركّزة.
+     */
+    private fun showKeyboardFor(node: AccessibilityNodeInfo) {
+        try {
+            if (!node.refresh()) return
+            node.performAction(AccessibilityNodeInfo.ACTION_FOCUS)
+            handler.postDelayed({
+                try {
+                    node.refresh()
+                    node.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                } catch (_: Exception) {}
+            }, 120)
+        } catch (_: Exception) {}
     }
 
     private fun setText(node: AccessibilityNodeInfo, text: String): Boolean {

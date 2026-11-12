@@ -47,6 +47,13 @@
             android:text="@string/switch_skip_numbers" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchKeyboardAfter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="فتح لوحة المفاتيح على الحقل بعد النقل" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchImeOnly"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

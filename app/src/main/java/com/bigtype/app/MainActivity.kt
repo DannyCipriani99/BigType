@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         bindSwitch(R.id.switchEnabled, Prefs.isEnabled(this)) { Prefs.setEnabled(this, it) }
         bindSwitch(R.id.switchSkipNumbers, Prefs.skipNumbers(this)) { Prefs.setSkipNumbers(this, it) }
+        bindSwitch(R.id.switchKeyboardAfter, Prefs.keyboardAfter(this)) { Prefs.setKeyboardAfter(this, it) }
         bindSwitch(R.id.switchImeOnly, Prefs.imeOnly(this)) { Prefs.setImeOnly(this, it) }
         bindSwitch(R.id.switchLeft, Prefs.bubbleLeft(this)) { Prefs.setBubbleLeft(this, it) }
 

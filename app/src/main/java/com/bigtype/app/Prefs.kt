@@ -36,6 +36,10 @@ object Prefs {
     fun bubbleLeft(c: Context) = sp(c).getBoolean("bubble_left", false)
     fun setBubbleLeft(c: Context, v: Boolean) = sp(c).edit().putBoolean("bubble_left", v).apply()
 
+    /** فتح لوحة المفاتيح على الحقل بعد نقل النص. */
+    fun keyboardAfter(c: Context) = sp(c).getBoolean("keyboard_after", true)
+    fun setKeyboardAfter(c: Context, v: Boolean) = sp(c).edit().putBoolean("keyboard_after", v).apply()
+
     fun triggerMode(c: Context) = sp(c).getInt("trigger_mode", MODE_HIDDEN)
     fun setTriggerMode(c: Context, v: Int) = sp(c).edit().putInt("trigger_mode", v).apply()
 
