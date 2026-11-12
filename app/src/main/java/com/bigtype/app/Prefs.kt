@@ -30,7 +30,7 @@ object Prefs {
     fun setDirMode(c: Context, v: Int) = sp(c).edit().putInt("dir_mode", v).apply()
 
     // ---- التطبيقات المستثناة ----
-    fun excluded(c: Context): Set<String> =
+    fun excluded(c: Context): MutableSet<String> =
         HashSet(sp(c).getStringSet("excluded", emptySet()) ?: emptySet())
 
     fun setExcluded(c: Context, set: Set<String>) =
