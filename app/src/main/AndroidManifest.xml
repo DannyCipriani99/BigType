@@ -17,15 +17,6 @@
             </intent-filter>
         </activity>
 
-        <!-- نافذة المحرر الكبير: تُفتح من الخدمة فقط -->
-        <activity
-            android:name=".EditorActivity"
-            android:exported="false"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:taskAffinity=""
-            android:windowSoftInputMode="stateVisible|adjustResize" />
-
         <service
             android:name=".BigTextAccessibilityService"
             android:exported="true"

@@ -46,6 +46,35 @@
             android:layout_marginTop="8dp"
             android:text="@string/switch_skip_numbers" />
 
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchImeOnly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="إظهار الزر فقط عند ظهور لوحة المفاتيح" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchLeft"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="وضع الزر على يسار الحقل (الافتراضي: يمين)" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnExcluded"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="التطبيقات المستثناة" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnClearDrafts"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="مسح المسودات المحفوظة" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

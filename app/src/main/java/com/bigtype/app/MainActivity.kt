@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
@@ -24,23 +26,57 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
         }
 
-        findViewById<SwitchMaterial>(R.id.switchEnabled).apply {
-            isChecked = Prefs.isEnabled(this@MainActivity)
-            setOnCheckedChangeListener { _, v -> Prefs.setEnabled(this@MainActivity, v) }
+        bindSwitch(R.id.switchEnabled, Prefs.isEnabled(this)) { Prefs.setEnabled(this, it) }
+        bindSwitch(R.id.switchSkipNumbers, Prefs.skipNumbers(this)) { Prefs.setSkipNumbers(this, it) }
+        bindSwitch(R.id.switchImeOnly, Prefs.imeOnly(this)) { Prefs.setImeOnly(this, it) }
+        bindSwitch(R.id.switchLeft, Prefs.bubbleLeft(this)) { Prefs.setBubbleLeft(this, it) }
+
+        findViewById<MaterialButton>(R.id.btnExcluded).setOnClickListener { showExcluded() }
+        findViewById<MaterialButton>(R.id.btnClearDrafts).setOnClickListener {
+            Prefs.clearDrafts(this)
+            Toast.makeText(this, "تم مسح المسودات", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun bindSwitch(id: Int, initial: Boolean, onChange: (Boolean) -> Unit) {
+        findViewById<SwitchMaterial>(id).apply {
+            isChecked = initial
+            setOnCheckedChangeListener { _, v -> onChange(v) }
+        }
+    }
+
+    private fun appLabel(pkg: String): String =
+        try {
+            val info = packageManager.getApplicationInfo(pkg, 0)
+            "${packageManager.getApplicationLabel(info)} ($pkg)"
+        } catch (e: Exception) {
+            pkg
         }
 
-        findViewById<SwitchMaterial>(R.id.switchSkipNumbers).apply {
-            isChecked = Prefs.skipNumbers(this@MainActivity)
-            setOnCheckedChangeListener { _, v -> Prefs.setSkipNumbers(this@MainActivity, v) }
+    private fun showExcluded() {
+        val list = Prefs.excluded(this).toList().sorted()
+        if (list.isEmpty()) {
+            AlertDialog.Builder(this)
+                .setTitle("التطبيقات المستثناة")
+                .setMessage("لا توجد تطبيقات مستثناة.\n\nلإخفاء الزر في تطبيق ما: افتح المحرر فيه ← زر ⋮ ← «إخفاء الزر في هذا التطبيق».")
+                .setPositiveButton("حسناً", null)
+                .show()
+            return
         }
+        val labels = list.map { appLabel(it) }.toTypedArray()
+        val checked = BooleanArray(list.size) { true }
+        AlertDialog.Builder(this)
+            .setTitle("التطبيقات المستثناة (ألغِ التحديد لإرجاع الزر)")
+            .setMultiChoiceItems(labels, checked) { _, i, c -> checked[i] = c }
+            .setPositiveButton("حفظ") { _, _ ->
+                Prefs.setExcluded(this, list.filterIndexed { i, _ -> checked[i] }.toSet())
+            }
+            .setNegativeButton("إلغاء", null)
+            .show()
     }
 
     override fun onResume() {
         super.onResume()
-        refreshStatus()
-    }
-
-    private fun refreshStatus() {
         val on = isServiceEnabled()
         status.setText(if (on) R.string.status_on else R.string.status_off)
         status.setTextColor(
