@@ -4,6 +4,9 @@ on:
   push:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,7 +25,20 @@ jobs:
       - name: Build debug APK
         run: gradle assembleDebug --no-daemon
 
+      - name: Rename APK
+        run: cp app/build/outputs/apk/debug/app-debug.apk BigType.apk
+
       - uses: actions/upload-artifact@v4
         with:
           name: BigType-APK
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: BigType.apk
+
+      - name: Publish APK as a release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="v1.0-build${{ github.run_number }}"
+          gh release create "$TAG" BigType.apk \
+            --title "BigType $TAG" \
+            --notes "Debug APK built automatically." \
+            --target "${{ github.sha }}"
