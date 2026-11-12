@@ -15,8 +15,21 @@ android {
         versionName = "3.0"
     }
 
+    signingConfigs {
+        create("bigtype") {
+            storeFile = file("bigtype.keystore")
+            storePassword = "bigtype-sign"
+            keyAlias = "bigtype"
+            keyPassword = "bigtype-sign"
+        }
+    }
+
     buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("bigtype")
+        }
         release {
+            signingConfig = signingConfigs.getByName("bigtype")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
