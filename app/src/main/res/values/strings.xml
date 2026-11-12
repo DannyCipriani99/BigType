@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">المحرر الكبير</string>
+    <string name="service_description">يفتح نافذة كتابة كبيرة عند الضغط على أي حقل نص، ثم ينقل النص المكتوب إلى الحقل الأصلي عند الضغط على زر النقل. لا يقرأ التطبيق كلمات المرور ولا يرسل أي بيانات خارج الجهاز.</string>
+
+    <!-- الشاشة الرئيسية -->
+    <string name="status_on">الخدمة تعمل ✓</string>
+    <string name="status_off">الخدمة غير مفعّلة</string>
+    <string name="open_settings">فتح إعدادات إمكانية الوصول</string>
+    <string name="switch_enabled">تفعيل المحرر الكبير</string>
+    <string name="switch_skip_numbers">تجاهل حقول الأرقام والهاتف</string>
+    <string name="how_to_title">طريقة التفعيل</string>
+    <string name="how_to_body">1. اضغط الزر أعلاه، ثم اختر «المحرر الكبير» من قائمة الخدمات وفعّلها.\n\n2. على أندرويد 13 وما بعده، إن كان الخيار رمادياً: افتح معلومات التطبيق ← القائمة ⋮ ← «السماح بالإعدادات المقيّدة»، ثم ارجع وفعّل الخدمة.\n\n3. اضغط على أي حقل نص في أي تطبيق وستظهر نافذة الكتابة الكبيرة.</string>
+    <string name="try_title">جرّب هنا</string>
+    <string name="try_hint">اضغط على هذا الحقل بعد تفعيل الخدمة</string>
+
+    <!-- المحرر -->
+    <string name="editor_title">المحرر الكبير</string>
+    <string name="editor_hint">اكتب هنا بحرية…</string>
+    <string name="send_text">نقل النص إلى الحقل</string>
+    <string name="clear">مسح</string>
+    <string name="close">إغلاق</string>
+    <string name="chars_count">%d حرف</string>
+    <string name="discard_title">تجاهل التعديلات؟</string>
+    <string name="discard_message">لديك تعديلات لم تُنقل إلى الحقل.</string>
+    <string name="discard_yes">تجاهل</string>
+    <string name="discard_no">متابعة الكتابة</string>
+    <string name="fallback_copied">تعذّر الإدخال المباشر. نُسخ النص — الصقه في الحقل.</string>
+    <string name="service_not_running">الخدمة غير مفعّلة، نُسخ النص إلى الحافظة.</string>
+</resources>
