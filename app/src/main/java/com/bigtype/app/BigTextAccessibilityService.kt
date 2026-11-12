@@ -1,11 +1,12 @@
 package com.bigtype.app
 
-import android.accessibilityservice.AccessibilityButtonController
 import android.accessibilityservice.AccessibilityService
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.BroadcastReceiver
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.graphics.PixelFormat
 import android.graphics.Rect
@@ -53,6 +54,7 @@ class BigTextAccessibilityService : AccessibilityService() {
     private var armedUntil = 0L
     private var suppressUntil = 0L
     private var lastWindowChange = 0L
+    private var lastInvoke = 0L
 
     private val refreshRunnable = Runnable { refreshBubble() }
 
@@ -60,14 +62,12 @@ class BigTextAccessibilityService : AccessibilityService() {
         scheduleRefresh(50)
     }
 
-    private val buttonCallback: Any? =
-        if (Build.VERSION.SDK_INT >= 26) {
-            object : AccessibilityButtonController.AccessibilityButtonCallback() {
-                override fun onClicked(controller: AccessibilityButtonController) {
-                    invoke(0)
-                }
-            }
-        } else null
+    /** استدعاء من تطبيقات الأتمتة (MacroDroid / Tasker …) عبر Broadcast. */
+    private val invokeReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            invoke(0)
+        }
+    }
 
     override fun onServiceConnected() {
         super.onServiceConnected()
@@ -75,13 +75,14 @@ class BigTextAccessibilityService : AccessibilityService() {
         wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
         uiCtx = ContextThemeWrapper(this, R.style.Theme_BigType)
         Prefs.register(this, prefsListener)
-        if (Build.VERSION.SDK_INT >= 26) {
-            try {
-                accessibilityButtonController.registerAccessibilityButtonCallback(
-                    buttonCallback as AccessibilityButtonController.AccessibilityButtonCallback
-                )
-            } catch (_: Exception) {}
-        }
+        try {
+            val f = IntentFilter(InvokeReceiver.ACTION)
+            if (Build.VERSION.SDK_INT >= 33) {
+                registerReceiver(invokeReceiver, f, Context.RECEIVER_EXPORTED)
+            } else {
+                registerReceiver(invokeReceiver, f)
+            }
+        } catch (_: Exception) {}
         scheduleRefresh(100)
     }
 
@@ -100,6 +101,7 @@ class BigTextAccessibilityService : AccessibilityService() {
     private fun cleanup() {
         handler.removeCallbacksAndMessages(null)
         try { Prefs.unregister(this, prefsListener) } catch (_: Exception) {}
+        try { unregisterReceiver(invokeReceiver) } catch (_: Exception) {}
         hideBubble()
         panel?.forceClose()
         panel = null
@@ -191,7 +193,7 @@ class BigTextAccessibilityService : AccessibilityService() {
     }
 
     // ------------------------------------------------------------------
-    // الاستدعاء اليدوي (Tile / أيقونة / زر إمكانية الوصول / الكرة)
+    // الاستدعاء اليدوي (Broadcast / Activity من تطبيقات الأتمتة، أو الكرة)
     // ------------------------------------------------------------------
 
     private fun appRoots(): List<AccessibilityNodeInfo> {
@@ -234,6 +236,9 @@ class BigTextAccessibilityService : AccessibilityService() {
      * يفتح المحرر للحقل المركّز، أو للحقل الوحيد الظاهر، وإلا ينتظر أن تضغط على الحقل المطلوب.
      */
     fun invoke(delayMs: Long) {
+        val t = now()
+        if (t - lastInvoke < 400) return   // تجاهل الاستدعاء المكرر
+        lastInvoke = t
         handler.postDelayed({ doInvoke() }, delayMs)
     }
 

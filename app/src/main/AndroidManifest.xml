@@ -22,32 +22,28 @@
             android:exported="false"
             android:label="مظهر الكرة" />
 
-        <!-- أيقونة «فتح المحرر»: تستدعي المحرر للحقل الحالي ثم تغلق نفسها -->
+        <!-- استدعاء من تطبيقات الأتمتة: Activity بالـ Action ثابت (بدون أيقونة في القائمة) -->
         <activity
             android:name=".InvokeActivity"
             android:exported="true"
             android:excludeFromRecents="true"
-            android:label="فتح المحرر"
-            android:icon="@drawable/ic_launcher"
             android:noHistory="true"
             android:taskAffinity=""
             android:theme="@style/Theme.BigType.Invoke">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="com.bigtype.app.INVOKE" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".InvokeTileService"
-            android:exported="true"
-            android:icon="@drawable/ic_edit"
-            android:label="المحرر الكبير"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+        <!-- استدعاء من تطبيقات الأتمتة: Broadcast -->
+        <receiver
+            android:name=".InvokeReceiver"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
+                <action android:name="com.bigtype.app.INVOKE" />
             </intent-filter>
-        </service>
+        </receiver>
 
         <service
             android:name=".BigTextAccessibilityService"

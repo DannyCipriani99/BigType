@@ -77,7 +77,7 @@
                 android:id="@+id/modeNear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="زر بجانب الحقل (الافتراضي)" />
+                android:text="زر بجانب الحقل" />
 
             <RadioButton
                 android:id="@+id/modeKeyboard"
@@ -95,7 +95,7 @@
                 android:id="@+id/modeHidden"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="بدون زر: أستدعيه يدوياً" />
+                android:text="بدون زر: أستدعيه من تطبيق أتمتة (الافتراضي)" />
 
             <RadioButton
                 android:id="@+id/modeTap"
@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:lineSpacingExtra="2dp"
-            android:text="الاستدعاء اليدوي: من زر «المحرر الكبير» في مربع الإشعارات السريعة (أضفه من تعديل الأزرار)، أو من أيقونة «فتح المحرر» في قائمة التطبيقات، أو من زر إمكانية الوصول. يفتح المحرر للحقل المحدد، أو للحقل الوحيد الظاهر، وإن وُجد أكثر من حقل ولم تحدد أحدها فاضغط على الحقل المطلوب ليفتح فوراً."
+            android:text="الاستدعاء من MacroDroid أو Tasker: أرسل Intent من نوع Broadcast، الـ Action: com.bigtype.app.INVOKE، والحزمة (Package): com.bigtype.app. أو شغّل Activity بالـ Action نفسه. يفتح المحرر للحقل المحدد، أو للحقل الوحيد الظاهر، وإن وُجد أكثر من حقل ولم تحدد أحدها فاضغط على الحقل المطلوب ليفتح فوراً."
             android:textSize="13sp" />
 
         <com.google.android.material.button.MaterialButton

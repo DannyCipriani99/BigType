@@ -36,7 +36,7 @@ object Prefs {
     fun bubbleLeft(c: Context) = sp(c).getBoolean("bubble_left", false)
     fun setBubbleLeft(c: Context, v: Boolean) = sp(c).edit().putBoolean("bubble_left", v).apply()
 
-    fun triggerMode(c: Context) = sp(c).getInt("trigger_mode", MODE_NEAR)
+    fun triggerMode(c: Context) = sp(c).getInt("trigger_mode", MODE_HIDDEN)
     fun setTriggerMode(c: Context, v: Int) = sp(c).edit().putInt("trigger_mode", v).apply()
 
     fun textSize(c: Context) = sp(c).getInt("text_size", 20)
